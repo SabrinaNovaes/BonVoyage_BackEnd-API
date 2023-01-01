@@ -1,0 +1,53 @@
+package com.cadastro.model;
+
+import java.time.LocalDate;
+
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Data
+@Entity
+@Table(name = "clientes")
+public class Clientes {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private long id_cliente;
+	
+	@Column(name = "nome", nullable = false)
+	private String nome;
+	
+	@Column(name = "sobrenome", nullable = false)
+	private String sobrenome;
+
+	@Column(name = "cpf", nullable = false)
+	private int cpf;
+	
+	@Column(name = "data_nascimento", nullable = false)
+	@Convert(converter = Jsr310JpaConverters.LocalDateConverter.class)
+	private LocalDate data_nascimento;
+	
+	@Column(name = "telefone", nullable = false)
+	private int telefone;
+	
+	@JoinColumn(name = "fk_id_usuario")
+	@OneToOne
+	private long fk_id_usuario; 
+}

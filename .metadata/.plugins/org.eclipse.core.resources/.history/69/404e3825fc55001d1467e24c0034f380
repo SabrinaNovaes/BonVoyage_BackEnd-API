@@ -1,0 +1,5 @@
+package com.cadastro.model;
+
+public class Endereco {
+
+}

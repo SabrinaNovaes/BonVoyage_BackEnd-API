@@ -1,0 +1,58 @@
+package com.cadastro.serviceImpl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cadastro.exception.ResourceNotFoundException;
+import com.cadastro.model.Clientes;
+import com.cadastro.model.Usuarios;
+import com.cadastro.repositories.ClienteRepository;
+import com.cadastro.repositories.UsuarioRepository;
+import com.cadastro.service.ClientesService;
+
+@Service
+public class ClientesServiceImpl implements ClientesService {
+
+	@Autowired
+	private ClienteRepository clienteRepository;
+	
+	@Override
+	public Clientes saveClientes(Clientes clientes) {
+		return clienteRepository.save(clientes);
+	}
+	
+	@Override
+	public List<Clientes> getAllClientes(){
+		return clienteRepository.findAll();
+	}
+	
+	@Override
+	public Clientes getClientesById(long id_cliente) {
+		return clienteRepository.findById(id_cliente).orElseThrow(() -> 
+				new ResourceNotFoundException("Cliente", "id", id_cliente));
+	}
+	
+	@Override
+	public void deleteClientes(long id_cliente) {
+		clienteRepository.findById(id_cliente).orElseThrow(()
+				-> new ResourceNotFoundException("Clientes", "id", id_cliente));
+	}
+
+	@Override
+	public Clientes updateClientes(Clientes cliente, long id_cliente) {
+
+		Clientes clienteExiste = clienteRepository.findById(id_cliente).orElseThrow(()
+				-> new ResourceNotFoundException("Clientes", "id", id_cliente));
+		
+		clienteExiste.setNome(cliente.getNome());
+		clienteExiste.setSobrenome(cliente.getSobrenome());
+		clienteExiste.setCpf(cliente.getCpf());
+		clienteExiste.setData_nascimento(cliente.getData_nascimento());
+		clienteExiste.setTelefone(cliente.getTelefone());
+		
+		clienteRepository.save(clienteExiste);
+		return clienteExiste;
+	}
+}

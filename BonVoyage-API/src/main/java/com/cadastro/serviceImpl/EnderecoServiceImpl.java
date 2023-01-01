@@ -1,0 +1,52 @@
+package com.cadastro.serviceImpl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.cadastro.exception.ResourceNotFoundException;
+import com.cadastro.model.Endereco;
+import com.cadastro.repositories.EnderecoRepository;
+
+@Service
+public class EnderecoServiceImpl {
+
+	@Autowired
+	private EnderecoRepository repository;
+	
+	public Endereco saveEndereco(Endereco endereco) {
+		return repository.save(endereco);
+	}
+	
+	public List<Endereco> getAllEndereco() {
+		return repository.findAll();
+	}
+	
+	public Endereco getEnderecoById(long id_endereco) {
+		return repository.findById(id_endereco).orElseThrow(()
+				-> new ResourceNotFoundException("Endereço", "id", id_endereco));
+	}
+	
+	public Endereco updateEndereco(Endereco endereco, long id_endereco) {
+		
+		Endereco enderecoExiste = repository.findById(id_endereco).orElseThrow(()
+				-> new ResourceNotFoundException("Endereco", "id", id_endereco));
+		
+		enderecoExiste.setRua(endereco.getRua());
+		enderecoExiste.setNumero(endereco.getNumero());
+		enderecoExiste.setCep(endereco.getCep());
+		enderecoExiste.setBairro(endereco.getBairro());
+		enderecoExiste.setCidade(endereco.getCidade());
+		enderecoExiste.setEstado(endereco.getEstado());
+		enderecoExiste.setUsuario(endereco.getUsuario());
+		
+		repository.save(enderecoExiste);
+		return enderecoExiste;
+	}
+	
+	public void deleteEndereco(long id_endereco) {
+		repository.findById(id_endereco).orElseThrow(()
+				-> new ResourceNotFoundException("Endereco", "id", id_endereco));
+	}
+}

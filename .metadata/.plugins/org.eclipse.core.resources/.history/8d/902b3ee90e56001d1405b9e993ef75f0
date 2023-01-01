@@ -1,0 +1,53 @@
+package com.cadastro.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.cadastro.model.Clientes;
+import com.cadastro.serviceImpl.ClientesServiceImpl;
+
+@RestController
+@RequestMapping("clientes")
+public class ClientesController {
+
+	@Autowired
+	private ClientesServiceImpl service;
+	
+	@GetMapping("{id_cliente}")
+	public ResponseEntity<Clientes> getClientesById(@PathVariable("id_cliente") long clientesid_clientes) {
+		return new ResponseEntity<Clientes>(service.getClientesById(clientesid_clientes), HttpStatus.OK);
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<Clientes>> findAll(){
+		List<Clientes> clientes = service.getAllClientes();
+		return ResponseEntity.ok().body(clientes);
+	}
+	
+	@PostMapping
+	public ResponseEntity<Clientes> saveClientes(@RequestBody Clientes clientes) {
+		return new ResponseEntity<Clientes>(service.saveClientes(clientes), HttpStatus.CREATED);
+	}
+	
+	@PutMapping("{id_cliente}")
+	public ResponseEntity<Clientes> updateClientes(@PathVariable ("id_cliente") long id_cliente, @RequestBody Clientes clientes) {
+		return new ResponseEntity<Clientes>(service.updateClientes(clientes, id_cliente), HttpStatus.OK);
+	}
+	
+	@DeleteMapping("{id_cliente}")
+	public ResponseEntity<String> deleteClientes(@PathVariable("id_cliente") long id_cliente) {
+		service.deleteClientes(id_cliente);
+		
+	return new ResponseEntity<String>("Cliente deletafdo com suceso!", HttpStatus.OK);
+	}
+}

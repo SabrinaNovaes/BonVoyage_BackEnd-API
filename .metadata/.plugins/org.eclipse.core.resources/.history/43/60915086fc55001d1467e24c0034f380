@@ -1,0 +1,14 @@
+package com.cadastro.model;
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Data
+@Entity
+@Table(name = "endereco")
+public class Endereco {
+
+}

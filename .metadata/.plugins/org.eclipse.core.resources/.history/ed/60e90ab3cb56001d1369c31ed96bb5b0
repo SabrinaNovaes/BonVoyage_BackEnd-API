@@ -1,0 +1,14 @@
+package com.cadastro.service;
+
+import java.util.List;
+
+import com.cadastro.model.Clientes;
+
+public interface ClientesService {
+
+	Clientes saveClientes(Clientes clientes);
+	List<Clientes> getAllClientes();
+	Clientes getClientesById(long id_clinete);
+	Clientes updateClientes(Clientes cliente, long id_cliente);
+	void deleteClientes(long id_cliente);	
+}
